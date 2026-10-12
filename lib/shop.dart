@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'data/mock_data.dart';
 import 'screens/category_screen.dart';
 import 'screens/login_screen.dart';
+import 'services/auth_service.dart';
 import 'widgets/product_card.dart';
 
 class Shop extends StatefulWidget {
@@ -17,6 +18,8 @@ class _ShopState extends State<Shop> {
 
   @override
   Widget build(BuildContext context) {
+    final user = AuthService().currentUser;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text("Daraz Mini E-Shop", style: TextStyle(fontWeight: FontWeight.bold)),
@@ -51,6 +54,7 @@ class _ShopState extends State<Shop> {
                     ),
                     TextButton(
                       onPressed: () {
+                        AuthService().logout();
                         Navigator.pop(context);
                         Navigator.pushAndRemoveUntil(
                           context,
@@ -72,14 +76,17 @@ class _ShopState extends State<Shop> {
         child: ListView(
           padding: EdgeInsets.zero,
           children: [
-            const UserAccountsDrawerHeader(
-              accountName: Text('Flutter Shopper', style: TextStyle(fontWeight: FontWeight.bold)),
-              accountEmail: Text('shopper@flutter.dev'),
+            UserAccountsDrawerHeader(
+              accountName: Text(user?.name ?? 'Flutter Shopper', style: const TextStyle(fontWeight: FontWeight.bold)),
+              accountEmail: Text(user?.email ?? 'shopper@flutter.dev'),
               currentAccountPicture: CircleAvatar(
                 backgroundColor: Colors.white,
-                child: Text('FS', style: TextStyle(fontSize: 24, color: Colors.deepOrange, fontWeight: FontWeight.bold)),
+                child: Text(
+                  (user?.name != null && user!.name.isNotEmpty) ? user.name[0].toUpperCase() : 'F',
+                  style: const TextStyle(fontSize: 24, color: Colors.deepOrange, fontWeight: FontWeight.bold),
+                ),
               ),
-              decoration: BoxDecoration(color: Colors.deepOrange),
+              decoration: const BoxDecoration(color: Colors.deepOrange),
             ),
             ListTile(
               leading: const Icon(Icons.home),
@@ -117,7 +124,7 @@ class _ShopState extends State<Shop> {
                   context: context,
                   builder: (context) => AlertDialog(
                     title: const Text('Flutter Mini E-Commerce'),
-                    content: const Text('Multi-screen e-commerce mobile application built with Flutter.\nFeatures: Categories, Product Detail, Carousel Slider, Stacks, Cards, and Navigation.\nUses static/local mock data.'),
+                    content: const Text('Multi-screen e-commerce mobile application built with Flutter.\nFeatures: Categories, Product Detail, Carousel Slider, Stacks, Cards, and Navigation.\nUses static/local mock data with AuthService integration.'),
                     actions: [
                       TextButton(onPressed: () => Navigator.pop(context), child: const Text('OK')),
                     ],
