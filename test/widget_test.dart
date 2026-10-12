@@ -2,13 +2,13 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:ecommerceapp/main.dart';
 
 void main() {
-  testWidgets('E-Commerce App smoke test', (WidgetTester tester) async {
+  testWidgets('Login Screen smoke test', (WidgetTester tester) async {
     // Build our app and trigger a frame.
     await tester.pumpWidget(const MyApp());
 
-    // Verify that our app home screen displays Daraz Mini E-Shop title and Flash Sale
-    expect(find.text('Daraz Mini E-Shop'), findsOneWidget);
-    expect(find.text('Categories').first, findsOneWidget);
-    expect(find.text('Flash Sale'), findsOneWidget);
+    // Verify that login screen is shown initially
+    expect(find.text('Welcome to Daraz E-Shop'), findsOneWidget);
+    expect(find.text('Login'), findsOneWidget);
+    expect(find.text('Register'), findsOneWidget);
   });
 }

@@ -2,6 +2,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'data/mock_data.dart';
 import 'screens/category_screen.dart';
+import 'screens/login_screen.dart';
 import 'widgets/product_card.dart';
 
 class Shop extends StatefulWidget {
@@ -51,8 +52,10 @@ class _ShopState extends State<Shop> {
                     TextButton(
                       onPressed: () {
                         Navigator.pop(context);
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text('Logged out successfully')),
+                        Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(builder: (context) => const LoginScreen()),
+                          (route) => false,
                         );
                       },
                       child: const Text('Logout', style: TextStyle(color: Colors.red)),
